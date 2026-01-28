@@ -1008,6 +1008,15 @@ section h2 {
 .blog-post-content ul,
 .blog-post-content ol {
     margin: 0 0 24px 24px;
+    list-style: disc;
+}
+
+.blog-post-content ol {
+    list-style: decimal;
+}
+
+.blog-post-text ul {
+    list-style: disc;
 }
 
 .blog-post-content li {
