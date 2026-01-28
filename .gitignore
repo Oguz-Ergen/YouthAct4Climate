@@ -10,3 +10,13 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Claude/AI assistant files
+.agents/
+.claude/
+.opencode/
+claude.md
+
+# Screenshots and temporary files
+Ekran Resmi*.png
+*.tmp
