@@ -1170,6 +1170,7 @@ section h2 {
 .image-slider {
     position: relative;
     width: 100%;
+    max-width: 100%;
     margin: 32px 0;
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -1261,17 +1262,53 @@ section h2 {
 
 @media (max-width: 768px) {
     .slider-btn {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
     }
 
     .slider-btn svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
     .slider-nav {
         padding: 0 8px;
+    }
+
+    .slider-dots {
+        padding: 12px 0;
+        gap: 6px;
+    }
+
+    .slider-dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .slider-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .slider-nav {
+        padding: 0 4px;
+    }
+
+    .slider-dots {
+        padding: 10px 0;
+        gap: 5px;
+    }
+
+    .slider-dot {
+        width: 8px;
+        height: 8px;
     }
 }
 
