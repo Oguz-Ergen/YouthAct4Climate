@@ -1,3 +1,31 @@
+// ===== Dark Mode Toggle =====
+const themeToggle = document.querySelector('.theme-toggle');
+
+// Check for saved theme preference or default to light
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+// Initialize theme on page load
+initTheme();
+
+// Toggle theme
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        // Save preference
+        if (document.body.classList.contains('dark-mode')) {
+            localStorage.setItem('theme', 'dark');
+        } else {
+            localStorage.setItem('theme', 'light');
+        }
+    });
+}
+
 // ===== Mobile Navigation Toggle =====
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
