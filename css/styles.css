@@ -1274,6 +1274,20 @@ section h2 {
         width: 10px;
         height: 10px;
     }
+
+    .blog-post-content ul,
+    .blog-post-content ol {
+        margin-left: 16px;
+    }
+
+    .blog-post-content blockquote {
+        padding-left: 16px;
+        margin-left: 0;
+    }
+
+    .blog-post-text ul {
+        margin-left: 16px;
+    }
 }
 
 /* ===== Scroll Animations ===== */
