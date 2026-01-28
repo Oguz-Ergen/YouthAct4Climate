@@ -1,0 +1,21 @@
+{
+    "name": "YouthAct4Climate - Gençlik İklim Hareketi",
+    "short_name": "YouthAct4Climate",
+    "description": "Konak'ta gençlerin katılımıyla iklim değişikliğiyle mücadele projesi",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FAFAFA",
+    "theme_color": "#8B5CF6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "images/logo-beyaz-youthact4climate.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "lang": "tr",
+    "categories": ["education", "social"],
+    "scope": "/"
+}

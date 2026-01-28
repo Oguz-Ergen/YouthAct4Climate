@@ -1031,6 +1031,60 @@ section h2 {
     color: var(--color-text-light);
 }
 
+/* ===== Social Share Buttons ===== */
+.share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.share-buttons span {
+    font-weight: 600;
+    color: var(--color-text);
+    margin-right: 8px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: var(--transition);
+    color: white;
+}
+
+.share-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.share-btn.facebook {
+    background: #1877F2;
+}
+
+.share-btn.twitter {
+    background: #1DA1F2;
+}
+
+.share-btn.linkedin {
+    background: #0A66C2;
+}
+
+.share-btn.whatsapp {
+    background: #25D366;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 /* ===== Policy Grid (for policy page) ===== */
 .policy-grid {
     display: grid;
@@ -1399,5 +1453,180 @@ button:focus-visible {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== Dark Mode ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-text: #F3F4F6;
+        --color-text-light: #D1D5DB;
+        --color-bg: #111827;
+        --color-bg-alt: #1F2937;
+        --color-border: #374151;
+    }
+
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+    }
+
+    .site-banner {
+        background: #1F2937;
+        border-bottom-color: #374151;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #1F2937 0%, #312E81 50%, #1E3A5F 100%);
+    }
+
+    .feature-card,
+    .blog-card,
+    .faq-item {
+        background: var(--color-bg-alt);
+        border-color: var(--color-border);
+    }
+
+    .blog-card-image {
+        background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-secondary) 100%);
+    }
+
+    .video-section,
+    .blog-section {
+        background: var(--color-bg-alt);
+    }
+
+    .page-header,
+    .about-hero {
+        background: linear-gradient(135deg, #1F2937 0%, #312E81 50%, #1E3A5F 100%);
+    }
+
+    .footer {
+        background: #0F172A;
+    }
+
+    .footer-partners {
+        background: #1F2937;
+        border-bottom-color: #374151;
+    }
+
+    .footer-disclaimer {
+        background: #1F2937;
+        border-bottom-color: #374151;
+    }
+
+    .faq-question {
+        background: var(--color-bg-alt);
+    }
+
+    .faq-question:hover,
+    .faq-item.active .faq-question {
+        background: #374151;
+    }
+
+    .nav-menu {
+        background: var(--color-bg);
+    }
+
+    .nav-menu a {
+        color: var(--color-text-light);
+    }
+
+    .slider-btn {
+        background: rgba(31, 41, 55, 0.9);
+        color: var(--color-text);
+    }
+
+    .slider-btn:hover {
+        background: #374151;
+    }
+
+    .slider-dots {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-secondary {
+        background: var(--color-bg-alt);
+        color: var(--color-text);
+        border-color: var(--color-border);
+    }
+
+    .btn-secondary:hover {
+        background: #374151;
+    }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    .header,
+    .footer,
+    .nav-toggle,
+    .scroll-top,
+    .site-banner,
+    .slider-nav,
+    .slider-dots,
+    .hero-buttons,
+    .social-links {
+        display: none !important;
+    }
+
+    .hero {
+        min-height: auto !important;
+        padding: 20px 0 !important;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+
+    a[href^="#"]::after,
+    a[href^="javascript:"]::after {
+        content: "";
+    }
+
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+
+    h1, h2, h3, h4 {
+        page-break-after: avoid;
+    }
+
+    p, li {
+        orphans: 3;
+        widows: 3;
+    }
+
+    .blog-post {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .blog-post-layout {
+        display: block;
+    }
+
+    .image-slider {
+        page-break-inside: avoid;
     }
 }
