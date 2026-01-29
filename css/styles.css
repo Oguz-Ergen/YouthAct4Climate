@@ -1530,11 +1530,12 @@ body.dark-mode .theme-toggle .moon-icon {
 
 /* ===== Dark Mode ===== */
 body.dark-mode {
-    --color-text: #F3F4F6;
-    --color-text-light: #D1D5DB;
-    --color-bg: #111827;
-    --color-bg-alt: #1F2937;
-    --color-border: #374151;
+    --color-text: #F9FAFB;
+    --color-text-light: #E5E7EB;
+    --color-bg: #0F172A;
+    --color-bg-alt: #1E293B;
+    --color-border: #475569;
+    --color-primary-light: #C4B5FD;
     background-color: var(--color-bg);
     color: var(--color-text);
 }
@@ -1620,7 +1621,96 @@ body.dark-mode .btn-secondary {
 }
 
 body.dark-mode .btn-secondary:hover {
-    background: #374151;
+    background: #475569;
+}
+
+/* Dark mode improvements for better contrast */
+body.dark-mode .blog-category {
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+    color: var(--color-primary-light);
+    border-color: rgba(167, 139, 250, 0.4);
+}
+
+body.dark-mode .share-buttons {
+    border-color: var(--color-border);
+}
+
+body.dark-mode .share-buttons span {
+    color: var(--color-text);
+}
+
+body.dark-mode .read-more {
+    color: var(--color-primary-light);
+}
+
+body.dark-mode .read-more:hover {
+    color: #DDD6FE;
+}
+
+body.dark-mode .blog-card h3 {
+    color: var(--color-text);
+}
+
+body.dark-mode .blog-card p {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .feature-card h3 {
+    color: var(--color-text);
+}
+
+body.dark-mode .feature-card p {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .content-section p,
+body.dark-mode .content-section li {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .blog-post-content {
+    color: var(--color-text);
+}
+
+body.dark-mode .blog-post-content p {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .blog-post-content h2,
+body.dark-mode .blog-post-content h3 {
+    color: var(--color-text);
+}
+
+body.dark-mode .blog-post-content blockquote {
+    color: var(--color-text-light);
+    border-color: var(--color-primary-light);
+}
+
+body.dark-mode .faq-answer p {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .section-subtitle {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .hero-subtitle,
+body.dark-mode .hero-description {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .page-header p {
+    color: var(--color-text-light);
+}
+
+body.dark-mode .btn-outline {
+    border-color: var(--color-primary-light);
+    color: var(--color-primary-light);
+}
+
+body.dark-mode .btn-outline:hover {
+    background: var(--color-primary-light);
+    color: #0F172A;
 }
 
 /* ===== Netflix-Style Video Gallery ===== */

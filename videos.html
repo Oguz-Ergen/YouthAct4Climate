@@ -112,42 +112,6 @@
             font-size: 0.9rem;
             color: var(--color-text-light);
             line-height: 1.6;
-            overflow: hidden;
-            max-height: 4.8em; /* 3 lines */
-            position: relative;
-        }
-
-        .video-desc.collapsed::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2em;
-            background: linear-gradient(transparent, var(--color-bg-alt));
-        }
-
-        .video-desc.expanded {
-            max-height: none;
-        }
-
-        .video-desc.expanded::after {
-            display: none;
-        }
-
-        .toggle-desc {
-            background: none;
-            border: none;
-            color: var(--color-primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 8px 0;
-            margin-top: 8px;
-        }
-
-        .toggle-desc:hover {
-            text-decoration: underline;
         }
 
         /* Video Modal - Completely New Approach */
@@ -233,10 +197,19 @@
             border: none;
         }
 
-        @media (max-width: 768px) {
+        /* Tablet - 2 columns */
+        @media (max-width: 1024px) {
+            .videos-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
+        /* Mobile - 1 column */
+        @media (max-width: 600px) {
             .videos-grid {
                 grid-template-columns: 1fr;
-                gap: 24px;
+                gap: 20px;
             }
 
             .play-icon {
@@ -341,8 +314,7 @@
                     </div>
                     <div class="video-info">
                         <h3>YouthAct4Climate Projesi: Gençlik Katılımı, Yerel Yönetimler ve İklim Krizi</h3>
-                        <p class="video-desc collapsed">Projemizden yola çıkarak yerel yönetimlerle kurulan iş birliği ve gençlerin hazırladığı 12 politika önerisinin sürecini konuşuyoruz. İklim için söz değil, birlikte eylem zamanı.</p>
-                        <button class="toggle-desc">Devamını Oku</button>
+                        <p class="video-desc">Projemizden yola çıkarak yerel yönetimlerle kurulan iş birliği ve gençlerin hazırladığı 12 politika önerisinin sürecini konuşuyoruz. İklim için söz değil, birlikte eylem zamanı.</p>
                     </div>
                 </div>
 
@@ -356,8 +328,7 @@
                     </div>
                     <div class="video-info">
                         <h3>Gençler Kent Politikalarına Nasıl Katkı Sunuyor?</h3>
-                        <p class="video-desc collapsed">Gönüllülerimiz Zeynep ve proje yöneticimiz Samet, 12 politika önerisini neden yazdıklarını ve hedeflerini konuşuyor. Gençler olarak bugünün ortakları, yarının sahipleri olduğumuzu hatırlatıyoruz.</p>
-                        <button class="toggle-desc">Devamını Oku</button>
+                        <p class="video-desc">Gönüllülerimiz Zeynep ve proje yöneticimiz Samet, 12 politika önerisini neden yazdıklarını ve hedeflerini konuşuyor. Gençler olarak bugünün ortakları, yarının sahipleri olduğumuzu hatırlatıyoruz.</p>
                     </div>
                 </div>
 
@@ -371,8 +342,7 @@
                     </div>
                     <div class="video-info">
                         <h3>İklim Krizi Bağlamında Gençlik Katılımı ve Yerel Yönetimler</h3>
-                        <p class="video-desc collapsed">Pelin Tekir ve Murat Can Demirsoy, gençlik katılımını, yerel yönetimlerle iş birliğini ve anlamlı katılımın nasıl mümkün olabileceğini ele alıyor. Gençlerin sözü olmadan iklim mücadelesi eksik kalır.</p>
-                        <button class="toggle-desc">Devamını Oku</button>
+                        <p class="video-desc">Pelin Tekir ve Murat Can Demirsoy, gençlik katılımını, yerel yönetimlerle iş birliğini ve anlamlı katılımın nasıl mümkün olabileceğini ele alıyor. Gençlerin sözü olmadan iklim mücadelesi eksik kalır.</p>
                     </div>
                 </div>
 
@@ -386,8 +356,7 @@
                     </div>
                     <div class="video-info">
                         <h3>Gençlik Katılımı Nasıl Başlar? Gönüllülük, Süreç ve Deneyimler</h3>
-                        <p class="video-desc collapsed">Gönüllülerimiz Dilek ve İlkim, gençlik katılımının ne ifade ettiğini ve bu süreçlere nasıl dahil olunabileceğini konuşuyor. Katılım, adım atmakla başlıyor.</p>
-                        <button class="toggle-desc">Devamını Oku</button>
+                        <p class="video-desc">Gönüllülerimiz Dilek ve İlkim, gençlik katılımının ne ifade ettiğini ve bu süreçlere nasıl dahil olunabileceğini konuşuyor. Katılım, adım atmakla başlıyor.</p>
                     </div>
                 </div>
 
@@ -401,8 +370,7 @@
                     </div>
                     <div class="video-info">
                         <h3>Gençlerin Gözünden Kent Politikaları ve İklim Krizi</h3>
-                        <p class="video-desc collapsed">Deniz Kaya ve Ferhat Pamuk, gençlerin yaşadığı kentle kurduğu ilişkiyi ve iklim krizinin gençler üzerindeki etkilerini konuşuyor. Gençlerin sözü, kentin geleceği için belirleyici.</p>
-                        <button class="toggle-desc">Devamını Oku</button>
+                        <p class="video-desc">Deniz Kaya ve Ferhat Pamuk, gençlerin yaşadığı kentle kurduğu ilişkiyi ve iklim krizinin gençler üzerindeki etkilerini konuşuyor. Gençlerin sözü, kentin geleceği için belirleyici.</p>
                     </div>
                 </div>
             </div>
@@ -518,21 +486,6 @@
             });
         })();
 
-        // Description Toggle
-        document.querySelectorAll('.toggle-desc').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const desc = this.previousElementSibling;
-                if (desc.classList.contains('collapsed')) {
-                    desc.classList.remove('collapsed');
-                    desc.classList.add('expanded');
-                    this.textContent = 'Daha Az Göster';
-                } else {
-                    desc.classList.remove('expanded');
-                    desc.classList.add('collapsed');
-                    this.textContent = 'Devamını Oku';
-                }
-            });
-        });
     </script>
 </body>
 </html>

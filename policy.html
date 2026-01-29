@@ -27,6 +27,60 @@
     <meta name="twitter:image" content="https://youthact4climate.org/images/header-bg.jpg">
 
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Category Filter Styles */
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 40px;
+            padding: 0 16px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text);
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        .blog-card {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .blog-card.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                gap: 6px;
+            }
+
+            .filter-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -86,8 +140,25 @@
     <!-- Policy Grid -->
     <section class="content-section">
         <div class="container">
+            <!-- Category Filter -->
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">Tümü</button>
+                <button class="filter-btn" data-filter="kent-planlamasi">Kent Planlaması</button>
+                <button class="filter-btn" data-filter="cevre">Çevre</button>
+                <button class="filter-btn" data-filter="girisimcilik">Girişimcilik</button>
+                <button class="filter-btn" data-filter="gida">Gıda Güvenliği</button>
+                <button class="filter-btn" data-filter="saglik">Sağlık</button>
+                <button class="filter-btn" data-filter="katilim">Katılım</button>
+                <button class="filter-btn" data-filter="egitim">Eğitim</button>
+                <button class="filter-btn" data-filter="esitlik">Eşitlik</button>
+                <button class="filter-btn" data-filter="su">Su Kaynakları</button>
+                <button class="filter-btn" data-filter="atik">Atık Yönetimi</button>
+                <button class="filter-btn" data-filter="ulasim">Ulaşım</button>
+                <button class="filter-btn" data-filter="enerji">Enerji</button>
+            </div>
+
             <div class="blog-grid">
-                <article class="blog-card">
+                <article class="blog-card" data-category="kent-planlamasi">
                     <div class="blog-card-image">
                         <img src="images/policy-1.png" alt="Afetlere Dayanıklı Kent Planlaması" loading="lazy">
                     </div>
@@ -99,7 +170,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="cevre">
                     <div class="blog-card-image">
                         <img src="images/policy-2.png" alt="Yeşil Alan ve Kentsel Isı Adası" loading="lazy">
                     </div>
@@ -111,7 +182,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="girisimcilik">
                     <div class="blog-card-image">
                         <img src="images/policy-3.png" alt="İklim Dostu Girişimler" loading="lazy">
                     </div>
@@ -123,7 +194,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="gida">
                     <div class="blog-card-image">
                         <img src="images/policy-4.png" alt="Yerel ve Sürdürülebilir Gıda" loading="lazy">
                     </div>
@@ -135,7 +206,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="saglik">
                     <div class="blog-card-image">
                         <img src="images/policy-5.png" alt="İklim Krizinin Sağlığa Etkisi" loading="lazy">
                     </div>
@@ -147,7 +218,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="katilim">
                     <div class="blog-card-image">
                         <img src="images/policy-6.png" alt="Gençlerin Karar Alma Süreçlerine Katılımı" loading="lazy">
                     </div>
@@ -159,7 +230,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="egitim">
                     <div class="blog-card-image">
                         <img src="images/policy-7.png" alt="İklim Okuryazarlığı" loading="lazy">
                     </div>
@@ -171,7 +242,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="esitlik">
                     <div class="blog-card-image">
                         <img src="images/policy-8.png" alt="Toplumsal Cinsiyet Eşitliği" loading="lazy">
                     </div>
@@ -183,7 +254,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="su">
                     <div class="blog-card-image">
                         <img src="images/policy-9.png" alt="Su Yönetimi ve Denizel Kirlilik" loading="lazy">
                     </div>
@@ -195,7 +266,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="atik">
                     <div class="blog-card-image">
                         <img src="images/policy-10.png" alt="Atık Yönetimi ve Geri Dönüşüm" loading="lazy">
                     </div>
@@ -207,7 +278,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="ulasim">
                     <div class="blog-card-image">
                         <img src="images/policy-11.png" alt="Kent İçi Ulaşım ve Karbon Salımı" loading="lazy">
                     </div>
@@ -219,7 +290,7 @@
                     </div>
                 </article>
 
-                <article class="blog-card">
+                <article class="blog-card" data-category="enerji">
                     <div class="blog-card-image">
                         <img src="images/policy-12.png" alt="Enerji Verimsizliği ve Yenilenebilir Enerji" loading="lazy">
                     </div>
@@ -302,5 +373,31 @@
     </button>
 
     <script src="js/main.js"></script>
+    <script>
+        // Category Filter
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.blog-card[data-category]');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Filter cards
+                    cards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
