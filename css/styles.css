@@ -1088,7 +1088,7 @@ section h2 {
 /* ===== PDF Download Button ===== */
 .pdf-download {
     margin: 32px 0;
-    text-align: center;
+    text-align: left;
 }
 
 .btn-pdf {
