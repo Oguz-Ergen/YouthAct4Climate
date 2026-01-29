@@ -1085,6 +1085,37 @@ section h2 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* ===== PDF Download Button ===== */
+.pdf-download {
+    margin: 32px 0;
+    text-align: center;
+}
+
+.btn-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-pink) 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btn-pdf:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+}
+
+.btn-pdf svg {
+    flex-shrink: 0;
+}
+
 /* ===== Policy Grid (for policy page) ===== */
 .policy-grid {
     display: grid;
@@ -1893,14 +1924,19 @@ body.dark-mode .btn-secondary:hover {
 .video-desc-text {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
-    line-height: 1.6;
-    max-height: 60px;
+    line-height: 1.5;
+    max-height: 1.5em;
     overflow: hidden;
     transition: max-height 0.4s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .video-card-description.expanded .video-desc-text {
     max-height: 500px;
+    -webkit-line-clamp: unset;
+    display: block;
 }
 
 .video-desc-toggle {
@@ -1935,45 +1971,43 @@ body.dark-mode .btn-secondary:hover {
     display: block;
 }
 
-/* Video Modal */
+/* Video Modal - Overlay */
 .video-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    z-index: 10000;
-    display: flex;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    z-index: 99999 !important;
+    display: none !important;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .video-modal.active {
-    opacity: 1;
-    visibility: visible;
+    display: flex !important;
 }
 
 .video-modal-content {
     position: relative;
-    width: 90%;
+    width: 100%;
     max-width: 1000px;
     aspect-ratio: 16/9;
     background: #000;
-    border-radius: var(--radius-lg);
+    border-radius: 16px;
     overflow: hidden;
-    transform: scale(0.9);
-    transition: transform 0.3s ease;
-}
-
-.video-modal.active .video-modal-content {
-    transform: scale(1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
 }
 
 .video-modal-content iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     border: none;
@@ -1981,12 +2015,13 @@ body.dark-mode .btn-secondary:hover {
 
 .video-modal-close {
     position: absolute;
-    top: -50px;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
+    top: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     color: white;
     font-size: 24px;
@@ -1995,16 +2030,43 @@ body.dark-mode .btn-secondary:hover {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    z-index: 100000;
 }
 
 .video-modal-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .video-modal-close svg {
     width: 24px;
     height: 24px;
+}
+
+/* Video Modal Mobile */
+@media (max-width: 768px) {
+    .video-modal {
+        padding: 10px;
+    }
+
+    .video-modal-content {
+        width: 100%;
+        max-width: none;
+        border-radius: 8px;
+    }
+
+    .video-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .video-modal-close svg {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 /* Video Progress Bar (for watched videos) */
