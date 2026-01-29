@@ -9,6 +9,11 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
+# Redirect old English URLs to new Turkish URLs
+RewriteRule ^about/?$ /hakkimizda [R=301,L]
+RewriteRule ^policy/?$ /politika-onerileri [R=301,L]
+RewriteRule ^videos/?$ /videolar [R=301,L]
+
 # Remove .html extension from URLs
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.html -f
