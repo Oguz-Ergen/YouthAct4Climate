@@ -3,32 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="YouthAct4Climate - Gençlik İklim Hareketi Projesi video galerisi. Eğitim videoları, etkinlik kayıtları ve daha fazlası.">
+    <meta name="description" content="YouthAct4Climate - Gençlik İklim Hareketi Projesi video galerisi.">
     <title>Videolarımız - YouthAct4Climate</title>
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/logo-beyaz-youthact4climate.png">
     <link rel="apple-touch-icon" href="images/logo-beyaz-youthact4climate.png">
     <meta name="theme-color" content="#8B5CF6">
-
-    <!-- Open Graph -->
+    <link rel="manifest" href="manifest.json">
     <meta property="og:title" content="Videolarımız - YouthAct4Climate">
-    <meta property="og:description" content="Gençlik İklim Hareketi Projesi video galerisi. Eğitim videoları, etkinlik kayıtları ve daha fazlası.">
+    <meta property="og:description" content="Gençlik İklim Hareketi Projesi video galerisi.">
     <meta property="og:image" content="https://youthact4climate.org/images/header-bg.jpg">
     <meta property="og:url" content="https://youthact4climate.org/videos">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="tr_TR">
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Videolarımız - YouthAct4Climate">
     <meta name="twitter:description" content="Gençlik İklim Hareketi Projesi video galerisi.">
     <meta name="twitter:image" content="https://youthact4climate.org/images/header-bg.jpg">
-
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Video Page Specific Styles */
+        .videos-section {
+            padding: 80px 0;
+            background: var(--color-bg);
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .video-box {
+            background: var(--color-bg-alt);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .video-thumb {
+            position: relative;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .video-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-box:hover .video-thumb img {
+            transform: scale(1.05);
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .play-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--color-primary);
+            margin-left: 4px;
+        }
+
+        .video-thumb:hover .play-icon {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: white;
+        }
+
+        .video-info {
+            padding: 24px;
+        }
+
+        .video-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            color: var(--color-text);
+        }
+
+        .video-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            line-height: 1.6;
+            overflow: hidden;
+            max-height: 4.8em; /* 3 lines */
+            position: relative;
+        }
+
+        .video-desc.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2em;
+            background: linear-gradient(transparent, var(--color-bg-alt));
+        }
+
+        .video-desc.expanded {
+            max-height: none;
+        }
+
+        .video-desc.expanded::after {
+            display: none;
+        }
+
+        .toggle-desc {
+            background: none;
+            border: none;
+            color: var(--color-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 0;
+            margin-top: 8px;
+        }
+
+        .toggle-desc:hover {
+            text-decoration: underline;
+        }
+
+        /* Video Modal - Completely New Approach */
+        #videoOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #videoOverlay.show {
+            display: flex;
+        }
+
+        #videoContainer {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #videoContainer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #closeBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000000;
+            transition: background 0.3s ease;
+        }
+
+        #closeBtn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Featured Video */
+        .featured-video-box {
+            max-width: 900px;
+            margin: 0 auto 60px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-video-box .video-embed {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .featured-video-box iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .play-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+            .play-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            #closeBtn {
+                top: 10px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Site Banner -->
@@ -74,213 +303,138 @@
         </div>
     </header>
 
-    <!-- Video Gallery Section -->
-    <section class="video-gallery">
+    <!-- Page Header -->
+    <section class="page-header">
         <div class="container">
-            <h2>İklim İçin Gençlik Hareketi</h2>
-            <p class="section-subtitle">Projemizin tüm videolarını keşfedin</p>
+            <h1>Videolarımız</h1>
+            <p>İklim İçin Gençlik Hareketi projemizin tüm videolarını izleyin.</p>
+        </div>
+    </section>
 
+    <!-- Videos Section -->
+    <section class="videos-section">
+        <div class="container">
             <!-- Featured Video -->
-            <div class="featured-video">
-                <div class="featured-video-wrapper">
+            <h2 style="text-align: center; margin-bottom: 24px;">Proje Video Serisi</h2>
+            <div class="featured-video-box">
+                <div class="video-embed">
                     <iframe
                         src="https://www.youtube.com/embed/videoseries?list=PLa7RkVBxhMmikb-bNSZkQJEA0Wj-oDVlL"
-                        title="İklim İçin Gençlik Hareketi Projesi Video Serisi"
+                        title="İklim İçin Gençlik Hareketi Video Serisi"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen>
                     </iframe>
                 </div>
             </div>
 
-            <!-- Video Carousel -->
-            <div class="video-carousel-header">
-                <h3 class="video-carousel-title">Tüm Videolar</h3>
-                <div class="carousel-nav">
-                    <button class="carousel-btn carousel-prev" aria-label="Önceki">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <button class="carousel-btn carousel-next" aria-label="Sonraki">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
+            <!-- Video Grid -->
+            <h2 style="text-align: center; margin-bottom: 16px;">Tüm Videolar</h2>
+            <p class="section-subtitle" style="text-align: center;">Her bir videoyu ayrı ayrı izleyin</p>
+
+            <div class="videos-grid">
+                <!-- Video 1 -->
+                <div class="video-box">
+                    <div class="video-thumb" data-video="NJmYLbF0hK4">
+                        <img src="https://i.ytimg.com/vi/NJmYLbF0hK4/maxresdefault.jpg" alt="YouthAct4Climate Projesi" loading="lazy">
+                        <div class="play-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3>YouthAct4Climate Projesi: Gençlik Katılımı, Yerel Yönetimler ve İklim Krizi</h3>
+                        <p class="video-desc collapsed">Projemizden yola çıkarak yerel yönetimlerle kurulan iş birliği ve gençlerin hazırladığı 12 politika önerisinin sürecini konuşuyoruz. İklim için söz değil, birlikte eylem zamanı.</p>
+                        <button class="toggle-desc">Devamını Oku</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="video-carousel">
-                <div class="video-carousel-track" id="videoCarousel">
-                    <!-- Video 1 -->
-                    <div class="video-card">
-                        <div class="video-card-link" data-video-id="NJmYLbF0hK4" role="button" tabindex="0">
-                            <div class="video-card-thumbnail">
-                                <img src="https://i.ytimg.com/vi/NJmYLbF0hK4/maxresdefault.jpg" alt="YouthAct4Climate Projesi: Gençlik Katılımı, Yerel Yönetimler ve İklim Krizi" loading="lazy">
-                                <div class="video-play-btn">
-                                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </div>
-                            </div>
-                            <div class="video-card-content">
-                                <h4 class="video-card-title">YouthAct4Climate Projesi: Gençlik Katılımı, Yerel Yönetimler ve İklim Krizi</h4>
-                                <div class="video-card-meta">
-                                    <span>Sosyal İklim Derneği</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-card-description">
-                            <p class="video-desc-text">YouthAct4Climate projesi nereden doğdu, nasıl şekillendi ve neden önemli?<br><br>Video serimizin bu bölümünde, projemizden yola çıkarak yerel yönetimlerle kurulan iş birliği ve gençlerin hazırladığı 12 politika önerisinin sürecini ve sonrasını konuşuyoruz.<br><br>🌱 İklim için söz değil, birlikte eylem zamanı.<br><br>🎥 Sohbetin tamamını YouTube kanalımızda izleyebilirsiniz.<br><br>—<br>"#YouthAct4Climate – İklim İçin Gençlik Hareketi" projesi, Avrupa Birliği ve Türkiye Cumhuriyeti tarafından finanse edilen, UNDP tarafından yürütülen Sivil Katılım Hibe Programı kapsamında, Sosyal İklim Derneği ve Konak Belediyesi ortaklığıyla hayata geçirilmiştir.</p>
-                            <button class="video-desc-toggle" onclick="this.closest('.video-card-description').classList.toggle('expanded')">
-                                <span class="show-more">Devamını Oku</span>
-                                <span class="show-less">Daha Az Göster</span>
-                            </button>
+                <!-- Video 2 -->
+                <div class="video-box">
+                    <div class="video-thumb" data-video="E7mHLwqqUQE">
+                        <img src="https://i.ytimg.com/vi/E7mHLwqqUQE/maxresdefault.jpg" alt="Gençler Kent Politikalarına Nasıl Katkı Sunuyor?" loading="lazy">
+                        <div class="play-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </div>
                     </div>
+                    <div class="video-info">
+                        <h3>Gençler Kent Politikalarına Nasıl Katkı Sunuyor?</h3>
+                        <p class="video-desc collapsed">Gönüllülerimiz Zeynep ve proje yöneticimiz Samet, 12 politika önerisini neden yazdıklarını ve hedeflerini konuşuyor. Gençler olarak bugünün ortakları, yarının sahipleri olduğumuzu hatırlatıyoruz.</p>
+                        <button class="toggle-desc">Devamını Oku</button>
+                    </div>
+                </div>
 
-                    <!-- Video 2 -->
-                    <div class="video-card">
-                        <div class="video-card-link" data-video-id="E7mHLwqqUQE" role="button" tabindex="0">
-                            <div class="video-card-thumbnail">
-                                <img src="https://i.ytimg.com/vi/E7mHLwqqUQE/maxresdefault.jpg" alt="Gençler Kent Politikalarına Nasıl Katkı Sunuyor?" loading="lazy">
-                                <div class="video-play-btn">
-                                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </div>
-                            </div>
-                            <div class="video-card-content">
-                                <h4 class="video-card-title">Gençler Kent Politikalarına Nasıl Katkı Sunuyor?</h4>
-                                <div class="video-card-meta">
-                                    <span>Sosyal İklim Derneği</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-card-description">
-                            <p class="video-desc-text">#YouthAct4Climate gönüllülerimizden Zeynep ve proje yöneticimiz Samet, proje kapsamında hazırladığımız 12 politika önerisini neden yazma ihtiyacı duyduğumuzu ve bu sürece dair hedeflerimizi konuşuyor.<br><br>Bu kısa videoda, gençlerin kendi sorunlarını dile getirdiği, çözümün ve politika üretiminin bir parçası olma deneyiminden bir kesit var.<br><br>🌱 Gençler olarak bugünün ortakları, yarının sahipleri olduğumuzu hatırlatıyoruz.<br><br>—<br>"YouthAct4Climate – İklim İçin Gençlik Hareketi" projesi, Avrupa Birliği ve Türkiye Cumhuriyeti tarafından finanse edilen, UNDP tarafından yürütülen Sivil Katılım Hibe Programı kapsamında, Sosyal İklim Derneği ve Konak Belediyesi ortaklığıyla hayata geçirilmiştir.</p>
-                            <button class="video-desc-toggle" onclick="this.closest('.video-card-description').classList.toggle('expanded')">
-                                <span class="show-more">Devamını Oku</span>
-                                <span class="show-less">Daha Az Göster</span>
-                            </button>
+                <!-- Video 3 -->
+                <div class="video-box">
+                    <div class="video-thumb" data-video="Ty49HieZOwA">
+                        <img src="https://i.ytimg.com/vi/Ty49HieZOwA/maxresdefault.jpg" alt="İklim Krizi Bağlamında Gençlik Katılımı ve Yerel Yönetimler" loading="lazy">
+                        <div class="play-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </div>
                     </div>
+                    <div class="video-info">
+                        <h3>İklim Krizi Bağlamında Gençlik Katılımı ve Yerel Yönetimler</h3>
+                        <p class="video-desc collapsed">Pelin Tekir ve Murat Can Demirsoy, gençlik katılımını, yerel yönetimlerle iş birliğini ve anlamlı katılımın nasıl mümkün olabileceğini ele alıyor. Gençlerin sözü olmadan iklim mücadelesi eksik kalır.</p>
+                        <button class="toggle-desc">Devamını Oku</button>
+                    </div>
+                </div>
 
-                    <!-- Video 3 -->
-                    <div class="video-card">
-                        <div class="video-card-link" data-video-id="Ty49HieZOwA" role="button" tabindex="0">
-                            <div class="video-card-thumbnail">
-                                <img src="https://i.ytimg.com/vi/Ty49HieZOwA/maxresdefault.jpg" alt="İklim Krizi Bağlamında Gençlik Katılımı ve Yerel Yönetimler" loading="lazy">
-                                <div class="video-play-btn">
-                                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </div>
-                            </div>
-                            <div class="video-card-content">
-                                <h4 class="video-card-title">İklim Krizi Bağlamında Gençlik Katılımı ve Yerel Yönetimler</h4>
-                                <div class="video-card-meta">
-                                    <span>Sosyal İklim Derneği</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-card-description">
-                            <p class="video-desc-text">Video serimizin bu bölümünde Sosyal İklim Derneği'nden Pelin Tekir ile Konak Belediyesi'nden Murat Can Demirsoy, YouthAct4Climate kapsamında gençlik katılımını, yerel yönetimlerle iş birliğini ve anlamlı katılımın nasıl mümkün olabileceğini ele alıyor.<br><br>🌱 Gençlerin sözü olmadan iklim mücadelesi eksik kalır.<br><br>🎥 Sohbetin tamamını YouTube kanalımızda izleyebilirsiniz.<br><br>—<br>"#YouthAct4Climate – İklim İçin Gençlik Hareketi" projesi, Avrupa Birliği ve Türkiye Cumhuriyeti tarafından finanse edilen, UNDP tarafından yürütülen Sivil Katılım Hibe Programı kapsamında, Sosyal İklim Derneği ve Konak Belediyesi ortaklığıyla hayata geçirilmiştir.</p>
-                            <button class="video-desc-toggle" onclick="this.closest('.video-card-description').classList.toggle('expanded')">
-                                <span class="show-more">Devamını Oku</span>
-                                <span class="show-less">Daha Az Göster</span>
-                            </button>
+                <!-- Video 4 -->
+                <div class="video-box">
+                    <div class="video-thumb" data-video="VtaxtZNgRTw">
+                        <img src="https://i.ytimg.com/vi/VtaxtZNgRTw/maxresdefault.jpg" alt="Gençlik Katılımı Nasıl Başlar?" loading="lazy">
+                        <div class="play-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </div>
                     </div>
+                    <div class="video-info">
+                        <h3>Gençlik Katılımı Nasıl Başlar? Gönüllülük, Süreç ve Deneyimler</h3>
+                        <p class="video-desc collapsed">Gönüllülerimiz Dilek ve İlkim, gençlik katılımının ne ifade ettiğini ve bu süreçlere nasıl dahil olunabileceğini konuşuyor. Katılım, adım atmakla başlıyor.</p>
+                        <button class="toggle-desc">Devamını Oku</button>
+                    </div>
+                </div>
 
-                    <!-- Video 4 -->
-                    <div class="video-card">
-                        <div class="video-card-link" data-video-id="VtaxtZNgRTw" role="button" tabindex="0">
-                            <div class="video-card-thumbnail">
-                                <img src="https://i.ytimg.com/vi/VtaxtZNgRTw/maxresdefault.jpg" alt="Gençlik Katılımı Nasıl Başlar? Gönüllülük, Süreç ve Deneyimler" loading="lazy">
-                                <div class="video-play-btn">
-                                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </div>
-                            </div>
-                            <div class="video-card-content">
-                                <h4 class="video-card-title">Gençlik Katılımı Nasıl Başlar? Gönüllülük, Süreç ve Deneyimler</h4>
-                                <div class="video-card-meta">
-                                    <span>Sosyal İklim Derneği</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-card-description">
-                            <p class="video-desc-text">#YouthAct4Climate gönüllüleri Dilek ve İlkim, "#gençlikkatılımı"nın kendileri için ne ifade ettiğini, bu süreçlere nasıl dahil olunabileceğini ve gönüllülükle gelen karar alma mekanizmalarına katılımın neden "başlamak için büyük şeyler gerektirmediğini" konuştu.<br><br>🌱 Katılım, adım atmakla başlıyor.<br><br>—<br>"YouthAct4Climate – İklim İçin Gençlik Hareketi" projesi, Avrupa Birliği ve Türkiye Cumhuriyeti tarafından finanse edilen, UNDP tarafından yürütülen Sivil Katılım Hibe Programı kapsamında, Sosyal İklim Derneği ve Konak Belediyesi ortaklığıyla hayata geçirilmiştir.</p>
-                            <button class="video-desc-toggle" onclick="this.closest('.video-card-description').classList.toggle('expanded')">
-                                <span class="show-more">Devamını Oku</span>
-                                <span class="show-less">Daha Az Göster</span>
-                            </button>
+                <!-- Video 5 -->
+                <div class="video-box">
+                    <div class="video-thumb" data-video="cU1AtPRYoMY">
+                        <img src="https://i.ytimg.com/vi/cU1AtPRYoMY/maxresdefault.jpg" alt="Gençlerin Gözünden Kent Politikaları ve İklim Krizi" loading="lazy">
+                        <div class="play-icon">
+                            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
                         </div>
                     </div>
-
-                    <!-- Video 5 -->
-                    <div class="video-card">
-                        <div class="video-card-link" data-video-id="cU1AtPRYoMY" role="button" tabindex="0">
-                            <div class="video-card-thumbnail">
-                                <img src="https://i.ytimg.com/vi/cU1AtPRYoMY/maxresdefault.jpg" alt="Gençlerin Gözünden Kent Politikaları ve İklim Krizi" loading="lazy">
-                                <div class="video-play-btn">
-                                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                                </div>
-                            </div>
-                            <div class="video-card-content">
-                                <h4 class="video-card-title">Gençlerin Gözünden Kent Politikaları ve İklim Krizi</h4>
-                                <div class="video-card-meta">
-                                    <span>Sosyal İklim Derneği</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-card-description">
-                            <p class="video-desc-text">İklim İçin Gençlik Hareketi projemizin gönüllüleri Deniz Kaya ve Ferhat Pamuk, hazırlanmasına katkı sundukları 12 maddelik politika önerilerinden yola çıkarak; gençlerin yaşadığı kentle kurduğu ilişkiyi, iklim krizinin gençler üzerindeki etkilerini ve karar alma süreçlerine katılım ihtiyacını konuşuyor.<br><br>🌱 Gençlerin sözü, kentin geleceği için belirleyici.<br><br>—<br>"#YouthAct4Climate – İklim İçin Gençlik Hareketi" projesi, Avrupa Birliği ve Türkiye Cumhuriyeti tarafından finanse edilen, UNDP tarafından yürütülen Sivil Katılım Hibe Programı kapsamında, Sosyal İklim Derneği ve Konak Belediyesi ortaklığıyla hayata geçirilmiştir.</p>
-                            <button class="video-desc-toggle" onclick="this.closest('.video-card-description').classList.toggle('expanded')">
-                                <span class="show-more">Devamını Oku</span>
-                                <span class="show-less">Daha Az Göster</span>
-                            </button>
-                        </div>
+                    <div class="video-info">
+                        <h3>Gençlerin Gözünden Kent Politikaları ve İklim Krizi</h3>
+                        <p class="video-desc collapsed">Deniz Kaya ve Ferhat Pamuk, gençlerin yaşadığı kentle kurduğu ilişkiyi ve iklim krizinin gençler üzerindeki etkilerini konuşuyor. Gençlerin sözü, kentin geleceği için belirleyici.</p>
+                        <button class="toggle-desc">Devamını Oku</button>
                     </div>
                 </div>
             </div>
 
-            <!-- YouTube Channel Link -->
-            <div class="video-gallery-footer">
-                <a href="https://www.youtube.com/playlist?list=PLa7RkVBxhMmikb-bNSZkQJEA0Wj-oDVlL" target="_blank" rel="noopener" class="btn-netflix">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
+            <!-- YouTube Link -->
+            <div style="text-align: center; margin-top: 48px;">
+                <a href="https://www.youtube.com/playlist?list=PLa7RkVBxhMmikb-bNSZkQJEA0Wj-oDVlL" target="_blank" rel="noopener" class="btn btn-primary">
                     YouTube'da Tüm Playlist'i İzle
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-        <button class="video-modal-close" id="videoModalClose" aria-label="Kapat">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-        </button>
-        <div class="video-modal-content">
-            <iframe id="videoModalIframe" src="" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <!-- Video Overlay Modal -->
+    <div id="videoOverlay">
+        <button id="closeBtn">&times;</button>
+        <div id="videoContainer">
+            <iframe id="videoFrame" src="" title="Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <!-- Partner Logos -->
         <div class="footer-partners">
-            <img src="images/footer-bg.png" alt="Proje Ortakları - Sosyal İklim Derneği, Konak Belediyesi, TBB, AB-TR, UNDP">
+            <img src="images/footer-bg.png" alt="Proje Ortakları">
         </div>
-        <!-- Disclaimer -->
         <div class="footer-disclaimer">
             <div class="container">
                 <p>Bu web sitesi Avrupa Birliği'nin mali desteğiyle hazırlanmıştır. Bu websitesinin içeriği yalnızca Sosyal İklim Derneği'nin sorumluluğundadır ve AB'nin görüşlerini yansıtmamaktadır.</p>
             </div>
         </div>
-        <!-- Bottom Section -->
         <div class="footer-bottom-section">
             <div class="container">
                 <div class="footer-bottom-content">
@@ -326,70 +480,59 @@
 
     <script src="js/main.js"></script>
     <script>
-        // Video Carousel Navigation
-        const carousel = document.getElementById('videoCarousel');
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
+        // Simple Video Modal
+        (function() {
+            const overlay = document.getElementById('videoOverlay');
+            const videoFrame = document.getElementById('videoFrame');
+            const closeBtn = document.getElementById('closeBtn');
+            const thumbs = document.querySelectorAll('.video-thumb[data-video]');
 
-        if (carousel && prevBtn && nextBtn) {
-            const scrollAmount = 340;
-
-            prevBtn.addEventListener('click', () => {
-                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            // Open modal when clicking video thumbnail
+            thumbs.forEach(function(thumb) {
+                thumb.addEventListener('click', function() {
+                    const videoId = this.getAttribute('data-video');
+                    videoFrame.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+                    overlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                });
             });
 
-            nextBtn.addEventListener('click', () => {
-                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            });
-        }
+            // Close modal
+            function closeModal() {
+                overlay.classList.remove('show');
+                videoFrame.src = '';
+                document.body.style.overflow = '';
+            }
 
-        // Video Modal Functionality
-        const videoModal = document.getElementById('videoModal');
-        const videoModalIframe = document.getElementById('videoModalIframe');
-        const videoModalClose = document.getElementById('videoModalClose');
-        const videoCards = document.querySelectorAll('.video-card-link[data-video-id]');
+            closeBtn.addEventListener('click', closeModal);
 
-        // Open video modal
-        videoCards.forEach(card => {
-            card.addEventListener('click', (e) => {
-                e.preventDefault();
-                const videoId = card.dataset.videoId;
-                videoModalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-                videoModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            // Keyboard support
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    card.click();
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeModal();
                 }
             });
-        });
 
-        // Close modal function
-        function closeVideoModal() {
-            videoModal.classList.remove('active');
-            videoModalIframe.src = '';
-            document.body.style.overflow = '';
-        }
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+        })();
 
-        // Close button
-        videoModalClose.addEventListener('click', closeVideoModal);
-
-        // Close on backdrop click
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal) {
-                closeVideoModal();
-            }
-        });
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && videoModal.classList.contains('active')) {
-                closeVideoModal();
-            }
+        // Description Toggle
+        document.querySelectorAll('.toggle-desc').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const desc = this.previousElementSibling;
+                if (desc.classList.contains('collapsed')) {
+                    desc.classList.remove('collapsed');
+                    desc.classList.add('expanded');
+                    this.textContent = 'Daha Az Göster';
+                } else {
+                    desc.classList.remove('expanded');
+                    desc.classList.add('collapsed');
+                    this.textContent = 'Devamını Oku';
+                }
+            });
         });
     </script>
 </body>
